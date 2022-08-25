@@ -1,7 +1,5 @@
 package com.my.codility.answers;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 public class Solution {
 
 	public int solution(List<Integer> arr, int k) {
-		List<Integer> distinctLengths = new ArrayList<Integer>();
+		int minimumLength = -1;
 		for(int i=0; i<arr.size(); i++) {
 			int subArrayMinEnd = i + k;
 			for(int j=subArrayMinEnd; j<=arr.size(); j++) {
@@ -24,15 +22,13 @@ public class Solution {
 					// there won't be a minimum than k
 					return k;
 				}
-				if(uniques.size() > k) {
-					distinctLengths.add(uniques.size());
+				if(uniques.size() > k && uniques.size() < minimumLength) {
+					minimumLength = uniques.size();
 				}
 			}
 		}
 
-		Collections.sort(distinctLengths);
-
-		return distinctLengths.isEmpty() ? -1 : distinctLengths.get(0);
+		return minimumLength;
 	}
 
 	public static Set<Integer> findUniques(List<Integer> arr, int from, int to) {
