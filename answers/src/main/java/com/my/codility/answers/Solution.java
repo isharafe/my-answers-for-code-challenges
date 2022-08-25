@@ -1,12 +1,41 @@
 package com.my.codility.answers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
- * Hello world!
+ * This is a HackerRank test
+ *
+ * my (late) solution for the Mercari test.
  *
  */
 public class Solution {
 
-	public void solution(int[] A) {
+	public int solution(List<Integer> arr, int k) {
+		List<Integer> distinctLengths = new ArrayList<Integer>();
+		for(int i=0; i<arr.size(); i++) {
+			int subArrayMinEnd = i + k;
+			for(int j=subArrayMinEnd; j<=arr.size(); j++) {
+				Set<Integer> uniques = findUniques(arr, i, j);
+				if(uniques.size()==k) {
+					// there won't be a minimum than k
+					return k;
+				}
+				if(uniques.size() > k) {
+					distinctLengths.add(uniques.size());
+				}
+			}
+		}
 
+		Collections.sort(distinctLengths);
+
+		return distinctLengths.isEmpty() ? -1 : distinctLengths.get(0);
+	}
+
+	public static Set<Integer> findUniques(List<Integer> arr, int from, int to) {
+		return arr.subList(from, to).stream().collect(Collectors.toSet());
 	}
 }
